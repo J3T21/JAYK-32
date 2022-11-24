@@ -18,7 +18,7 @@ always_comb
     if (WE==1'b1)
         fred[A]=WD;
 
-always_ff @(posedge clk)
+always_ff @(posedge CLK)
     RD<=fred[A];
 
 endmodule

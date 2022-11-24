@@ -29,7 +29,7 @@ module RegFile #(
     end
 
     // Write to register file
-    always_ff @(posedge clk)
+    always_ff @(posedge CLK)
         if (WE3) REG_FILE[A3] <= WD3;
 
 endmodule
