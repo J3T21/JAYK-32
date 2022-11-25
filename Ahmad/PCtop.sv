@@ -1,30 +1,30 @@
 module PCtop #(
     parameter   D_WIDTH = 32
 )(
-    input  logic clk,
+    input  logic CLK,
     input  logic rst,
-    input  logic PCsrc,
-    input  logic [D_WIDTH-1:0] ImmOp,
+    input  logic PCSrc,
+    input  logic [D_WIDTH-1:0] ImmExt,
     output logic [D_WIDTH-1:0] PC
 );
 
 // Internal Wires
-    logic [D_WIDTH-1:0] branch_PC;
-    logic [D_WIDTH-1:0] inc_PC;
-    logic [D_WIDTH-1:0] next_PC;
+    logic [D_WIDTH-1:0] PCTarget;
+    logic [D_WIDTH-1:0] PCPlus4;
+    logic [D_WIDTH-1:0] PCNext;
 
 // Combinational Logic
     always_comb begin
-        inc_PC    = PC + 4;
-        branch_PC = PC + ImmOp;
-        next_PC   = PCsrc ? branch_PC : inc_PC;
+        PCPlus4  = PC + 4;
+        PCTarget = PC + ImmExt;
+        PCNext   = PCSrc ? PCTarget : PCPlus4;
     end 
 
 // DFF Module
-PCReg PCReg(
-    .clk(clk),
+PCReg PCR(
+    .CLK(CLK),
     .rst(rst),
-    .next_PC(next_PC),
+    .PCNext(PCNext),
     .PC(PC)
 );
 
