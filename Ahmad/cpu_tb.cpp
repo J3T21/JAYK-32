@@ -9,7 +9,7 @@
 
 int main(int argc, char **argv, char **env) {
   int simcyc;     // simulation clock count
-  int tick;       // each clk cycle has two ticks for two edges
+  int tick;       // each CLK cycle has two ticks for two edges
 
   Verilated::commandArgs(argc, argv);
   
@@ -28,24 +28,27 @@ int main(int argc, char **argv, char **env) {
   vbdSetMode(0);
 
   // initialize simulation inputs
-  cpu->clk = 0;
+  cpu->CLK = 0;
   cpu->rst = 0;
 
   for (simcyc = 0; simcyc < MAX_SIM_CYC; simcyc++) {
 
     for (tick=0; tick<2 && vbdFlag(); tick++) {
       tfp->dump (2*simcyc+tick);
-      cpu->clk = !cpu->clk;
+      cpu->CLK = !cpu->CLK;
       cpu->eval ();
     }
+
+    // vbdHex(1, int(cpu->a0) & 0xf);
+    // vbdHex(2, int(cpu->a0) >> 4 & 0xf);
+    // vbdHex(3, int(cpu->a0) >> 8 & 0xf);
+    vbdPlot(cpu->a0,0,255);
 
     vbdCycle(simcyc);
 
     // Displays value at a0 on Vbuddy
 
-    vbdHex(1, int(cpu->a0) & 0xf);
-    vbdHex(2, int(cpu->a0) >> 4 & 0xf);
-    vbdHex(3, int(cpu->a0) >> 8 & 0xf);
+    
 
     if (Verilated::gotFinish())  exit(0);
   }
