@@ -1,7 +1,7 @@
 module ControlUnit(
     input  logic [6:0] op,
-    input  logic [2:0] func3,
-    input  logic [6:0] func7,
+    input  logic [2:0] funct3,
+    input  logic [6:0] funct7,
     input  logic       Zero,
     output logic       PCSrc,
     output logic       ResultSrc,
@@ -28,11 +28,12 @@ MainDecoder MD(
 
 ALUDecoder AD(
     .ALUOp(ALUOp),
-    .func3(func3),
-    .func7(func7),
+    .op5(op[5]),
+    .funct3(funct3),
+    .funct7(funct7),
     .ALUControl(ALUControl)
 );
 
-assign PCSrc = Branch & Zero;
+assign PCSrc = Branch & (funct3[0] ^ Zero);
 
 endmodule
