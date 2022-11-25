@@ -2,47 +2,64 @@ module ALUtop #(
     parameter   A_WIDTH = 5,
                 D_WIDTH = 32
 )(
-    input  logic               clk,
-    input  logic               ALUsrc,
-    input  logic [2:0]         ALUctrl,
+    input  logic               CLK,
+    input  logic               ALUSrc,
+    input  logic [2:0]         ALUControl,
     input  logic               RegWrite,
-    input  logic [A_WIDTH-1:0] rs1,
-    input  logic [A_WIDTH-1:0] rs2,
-    input  logic [A_WIDTH-1:0] rd,
-    input  logic [D_WIDTH-1:0] ImmOp,
-    output logic               EQ,
+    input  logic [A_WIDTH-1:0] A1,
+    input  logic [A_WIDTH-1:0] A2,
+    input  logic [A_WIDTH-1:0] A3,
+    input  logic [D_WIDTH-1:0] ImmExt,
+    input  logic               ResultSrc,
+    input  logic               MemWrite,
+    output logic               Zero,
     output logic [D_WIDTH-1:0] a0
 );
 
 // Internal Wires
-    logic [D_WIDTH-1:0] ALUop1;
-    logic [D_WIDTH-1:0] ALUop2;
-    logic [D_WIDTH-1:0] regOp2;
-    logic [D_WIDTH-1:0] ALUout;
+    logic [D_WIDTH-1:0] SrcA;
+    logic [D_WIDTH-1:0] SrcB;
+    logic [D_WIDTH-1:0] WriteData;
+    logic [D_WIDTH-1:0] ALUResult;
+    logic [D_WIDTH-1:0] ReadData;
+    logic [D_WIDTH-1:0] Result;
 
 // Reg File Module
 RegFile rf(
-    .clk(clk),
+    .CLK(CLK),
     .WE3(RegWrite),
-    .AD1(rs1),
-    .AD2(rs2),
-    .AD3(rd),
-    .WD3(ALUout),
-    .RD1(ALUop1),
-    .RD2(regOp2),
+    .A1(A1),
+    .A2(A2),
+    .A3(A3),
+    .WD3(Result),
+    .RD1(SrcA),
+    .RD2(WriteData),
     .a0(a0)
 );
 
 // MUX 
-    assign ALUop2 = ALUsrc ? ImmOp : regOp2;
+    assign SrcB = ALUSrc ? ImmExt : WriteData;
 
 // ALU Module
 ALU alu(
-    .ALUctrl(ALUctrl),
-    .ALUop1(ALUop1),
-    .ALUop2(ALUop2),
-    .ALUout(ALUout),
-    .EQ(EQ)
+    .ALUControl(ALUControl),
+    .SrcA(SrcA),
+    .SrcB(SrcB),
+    .ALUResult(ALUResult),
+    .Zero(Zero)
 );
 
+DataMemory dm(
+    .A(ALUResult),
+    .WD(WriteData),
+    .WE(MemWrite),
+    .RD(ReadData),
+    .CLK(CLK)
+);
+
+    always_comb begin
+        assign Result = ResultSrc ? ReadData:ALUResult;
+        $display("Result: ", Result);
+    end
+    
 endmodule
