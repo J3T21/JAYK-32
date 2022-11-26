@@ -19,14 +19,12 @@ initial begin
     //     fred[i]=32'b0;
 end
 
-always_latch begin
-    if (WE==1'b1)
-        fred[A]=WD;
+always_comb
     RD=fred[A];
-end
 
 always_ff @(posedge CLK) begin
-    // RD<=fred[A];
+    if (WE==1'b1)
+        fred[A]=WD;
     $display("Address", A);
     $display("ReadData", RD);
 end
