@@ -21,10 +21,7 @@ module MainDecoder(
 
         case (op)
         // Register - R
-            
-            7'd51: begin //case (funct7) // Register format endcase
-            //     default: $display ("Invalid Instruction");
-            // endcase
+            7'd51: begin
                 RegWrite  = 1'b1;
                 ALUSrc    = 1'b0;
                 ALUOp     = 2'b10;
@@ -32,10 +29,10 @@ module MainDecoder(
         // Immediate - I
             // Load Word
             7'd03: begin 
-                    RegWrite  = 1'b1;
-                    ImmSrc    = 3'b000;
-                    ResultSrc = 1'b1;
-                    ALUOp     = 2'b00; 
+                RegWrite  = 1'b1;
+                ImmSrc    = 3'b000;
+                ResultSrc = 1'b1;
+                ALUOp     = 2'b00; 
             end
             // Immediate Logic
             7'd19: begin
@@ -44,14 +41,14 @@ module MainDecoder(
                 ALUOp     = 2'b10;
             end
         // Upper Immediate - UI
-            // 7'd23: // Add  Upper Immediate to PC
-            // 7'd55: // Load Upper Immediate
+            // 7'd23: begin // Add  Upper Immediate to PC
+            // 7'd55: begin // Load Upper Immediate
         // Store - S
             7'd35: begin// Store Immediate
                 ImmSrc   = 3'b010;
-                ALUSrc   = 1'b0;
+                ALUSrc   = 1'b0; 
                 MemWrite = 1'b1; 
-            end              
+            end                  
         // Branch - B         
             7'd99: begin
                 ImmSrc = 3'b011; 
@@ -60,14 +57,11 @@ module MainDecoder(
             end
         // Jump - J
             // 7'd103: begin // Jump and link register
-            // end 
             // 7'd111: begin // Jump and link 
-            // end
         // Invalid 
             default: $display ("Invalid Instruction");
         endcase
 
     end
-
 
 endmodule
