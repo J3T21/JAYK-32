@@ -9,8 +9,7 @@ module ALUDecoder(
     always_comb begin
         case (ALUOp)
             // Load Store
-            2'b00: 
-                ALUControl = 3'b000;
+            2'b00: ALUControl = 3'b000;
             // Branch 
             2'b01: case (funct3)
                 // Branch Equal - beq
@@ -23,15 +22,8 @@ module ALUDecoder(
             // ALU
             2'b10: case(funct3)
                 // Add Sub - add, sub
-                3'b000: case({{op5},{funct7[5]}})
-                    // Sub - sub
-                    2'b11: 
-                        ALUControl = 3'b001;
-                    // Add - add
-                    default:
-                        ALUControl = 3'b000;
-                endcase
-                // Shift Left
+                3'b000:    ALUControl =  (op5 & funct7[5]) ? 3'b001 : 3'b000;
+                // Shift Left Logical
                 3'b001:    ALUControl = 3'b110;
                 // Set Less Than - slt 
                 3'b010:    ALUControl = 3'b101;
@@ -39,18 +31,12 @@ module ALUDecoder(
                 3'b011:    ALUControl = 3'b101; // CHANGE
                 // XOR
                 3'b100:    ALUControl = 3'b100;
-                // Right Shift
-                3'b101: case(funct7[5])
-                    1'b0:  ALUControl = 3'b111;
-                    // NEEDS CHANGING FOR ARITHMETIC SHIFT
-                    1'b1:  ALUControl = 3'b111; // CHANGE
-                endcase
+                // Shift Right Logical or Arithmetic
+                3'b101:    ALUControl = funct7[5] ? 3'b111 : 3'b111; // CHANGE left
                 // Or - or
-                3'b110:
-                    ALUControl = 3'b011;
+                3'b110:    ALUControl = 3'b011;
                 // And - and
-                3'b111:
-                    ALUControl = 3'b010;
+                3'b111:    ALUControl = 3'b010;
                 // Default 
                 default:
                     ALUControl = 3'b111;
