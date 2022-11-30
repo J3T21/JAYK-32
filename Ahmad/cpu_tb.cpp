@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 
-#include "vbuddy.cpp"     // include vbuddy code
+//#include "vbuddy.cpp"     // include vbuddy code
 #define MAX_SIM_CYC 100000
 
 int main(int argc, char **argv, char **env) {
@@ -23,9 +23,9 @@ int main(int argc, char **argv, char **env) {
   tfp->open ("cpu.vcd");
 
   // init Vbuddy
-  if (vbdOpen()!=1) return(-1);
-  vbdHeader("Ahmad Test"); // My branch :)
-  vbdSetMode(0);
+  //f (vbdOpen()!=1) return(-1);
+  //vbdHeader("Ahmad Test"); // My branch :)
+  //vbdSetMode(0);
 
   // initialize simulation inputs
   cpu->CLK = 0;
@@ -33,7 +33,7 @@ int main(int argc, char **argv, char **env) {
 
   for (simcyc = 0; simcyc < MAX_SIM_CYC; simcyc++) {
 
-    for (tick=0; tick<2 && vbdFlag(); tick++) {
+    for (tick=0; tick<2 /*&& vbdFlag()*/; tick++) {
       tfp->dump (2*simcyc+tick);
       cpu->CLK = !cpu->CLK;
       cpu->eval ();
@@ -42,9 +42,10 @@ int main(int argc, char **argv, char **env) {
     // vbdHex(1, int(cpu->a0) & 0xf);
     // vbdHex(2, int(cpu->a0) >> 4 & 0xf);
     // vbdHex(3, int(cpu->a0) >> 8 & 0xf);
-    vbdPlot(cpu->a0,0,255);
+    // vbdHex(4, int(cpu->a0) >> 12 & 0xf);
+    // vbdPlot(cpu->a0,0,255);
 
-    vbdCycle(simcyc);
+    // vbdCycle(simcyc);
 
     // Displays value at a0 on Vbuddy
 
@@ -52,7 +53,7 @@ int main(int argc, char **argv, char **env) {
 
     if (Verilated::gotFinish())  exit(0);
   }
-  vbdClose();
+  //bdClose();
   tfp->close(); 
   exit(0);
 }
