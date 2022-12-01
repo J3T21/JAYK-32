@@ -1,0 +1,26 @@
+.global _boot
+.text
+
+_boot:                    /* x0  = 0    0x000 */
+    /* Test ADDI */
+	addi a0,zero,0 /*binary out*/
+    addi a1,zero,0 /*state*/
+    addi s1,zero,1 /*const 1*/
+    addi s2,zero,8 /*const 8*/
+    addi s3,zero,0x00001FFFF /*last ram adress*/
+    resetadress:
+    addi a2,zero,0x00001000/*first ram adress*/
+    mloop:
+    addi a2,zero,1
+    beq t0,s1,fsm
+    beq a2,s3,resetadress
+    jal mloop
+    fsm:
+    slli a0, a0, 1
+    addi a0, a0,1
+    addi a1,a1,1
+    beq a1,s2,timer
+    timer:
+    
+
+    
