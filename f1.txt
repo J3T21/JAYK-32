@@ -21,6 +21,12 @@ _boot:                    /* x0  = 0    0x000 */
     addi a1,a1,1
     beq a1,s2,timer
     timer:
+    lw a3,(a2)
+    delay:
+    addi a0,zero,0x0
+    sub a3,a3,s1
+    bne a3,zero,delay
+    jal default
     
 
     
