@@ -11,9 +11,6 @@ module ALU #(
     logic Unsigned;
     logic DiffSign;
 
-    // LessThan is used for clarity 
-    // I could just use the Zero flag instead (more efficient)
-
     always_latch begin
         Zero = (SrcA == SrcB);
         case (ALUControl[2:0])
