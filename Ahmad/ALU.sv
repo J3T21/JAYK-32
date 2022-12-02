@@ -10,6 +10,7 @@ module ALU #(
 
     logic Unsigned;
     logic DiffSign;
+    logic [4:0] fuck;
 
     always_latch begin
         Zero = (SrcA == SrcB);
@@ -32,15 +33,15 @@ module ALU #(
                     end 
         // XOR
             3'b100:     ALUResult = SrcA ^ SrcB; 
-        // Shift Right (Arithmetic/Logical)
-            3'b101:     ALUResult = ALUControl[3] ? SrcA >>> SrcB[4:0] : SrcA >> SrcB[4:0]; 
+        // Shift Right (Arithmetic/Logical) 
+            3'b101:     ALUResult = ALUControl[3] ? $signed($signed(SrcA) >>> SrcB[4:0]) : SrcA >> SrcB[4:0]; 
         // OR 
             3'b110:     ALUResult = SrcA | SrcB;
         // AND
             3'b111:     ALUResult = SrcA & SrcB;
         // Default
             default:    ALUResult = 32'b0;
-        endcase
+        endcase        
         $display("ALU1: %h", SrcA);
         $display("ALU2: %h", SrcB);
     end

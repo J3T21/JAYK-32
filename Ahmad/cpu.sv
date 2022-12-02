@@ -108,14 +108,12 @@ Memorytop MT(
         $display("Instruction: %h", Instr);
         $display("ALUControl: %b", ALUControl);
         $display("ALUResult: %h", ALUResult);
-        $display("Result: ", Result);
+        $display("Result: %h", Result);
         $display("a0: %h", a0);
         //$display("Imm: %h", Instr[31:20]);
         //$display("EXT: %h", ImmExt);
         //$display("RegWrite: ", RegWrite);
         //$display("Write Address: %h", Instr[11:7]);
-        //$display("ResultSrc: ", ResultSrc);
-        
     end
 
 endmodule
