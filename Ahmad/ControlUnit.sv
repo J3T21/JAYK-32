@@ -1,4 +1,4 @@
-module ControlUnit(
+module ControlUnit (
     input  logic [6:0] op,
     input  logic [2:0] funct3,
     input  logic [6:0] funct7,
@@ -18,37 +18,37 @@ module ControlUnit(
 );
 
 
-// Internal Signals
-    logic [1:0] ALUOp;
-    logic       Branch;
- 
-// Main Decoder
-MainDecoder MD(
-    .op(op),
-    .Branch(Branch),
-    .Jump(Jump),
-    .JumpReg(JumpReg),
-    .ResultSrc(ResultSrc),
-    .MemWrite(MemWrite),
-    .ALUSrc(ALUSrc),
-    .ImmSrc(ImmSrc),
-    .RegWrite(RegWrite),
-    .ALUOp(ALUOp),
-    .PCUppSrc(PCUppSrc),
-    .ImmUppSrc(ImmUppSrc)
-);
+  // Internal Signals
+  logic [1:0] ALUOp;
+  logic       Branch;
 
-// ALU Decoder
-ALUDecoder AD(
-    .ALUOp(ALUOp),
-    .op5(op[5]),
-    .funct3(funct3),
-    .funct7(funct7),
-    .Type(Type),
-    .ALUControl(ALUControl)
-);
+  // Main Decoder
+  MainDecoder MD (
+      .op(op),
+      .Branch(Branch),
+      .Jump(Jump),
+      .JumpReg(JumpReg),
+      .ResultSrc(ResultSrc),
+      .MemWrite(MemWrite),
+      .ALUSrc(ALUSrc),
+      .ImmSrc(ImmSrc),
+      .RegWrite(RegWrite),
+      .ALUOp(ALUOp),
+      .PCUppSrc(PCUppSrc),
+      .ImmUppSrc(ImmUppSrc)
+  );
 
-// Assigns PCSrc
-    assign PCSrc = (Branch & (funct3[0] ^ Zero)) || Jump;
+  // ALU Decoder
+  ALUDecoder AD (
+      .ALUOp(ALUOp),
+      .op5(op[5]),
+      .funct3(funct3),
+      .funct7(funct7),
+      .Type(Type),
+      .ALUControl(ALUControl)
+  );
+
+  // Assigns PCSrc
+  assign PCSrc = (Branch & (funct3[0] ^ Zero)) || Jump;
 
 endmodule

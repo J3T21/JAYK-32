@@ -1,11 +1,11 @@
 module ALUtop #(
-    parameter   A_WIDTH = 5,
-                D_WIDTH = 32
-)(
+    parameter A_WIDTH = 5,
+    D_WIDTH = 32
+) (
     input  logic               CLK,
     input  logic               Jump,
     input  logic               ALUSrc,
-    input  logic [3:0]         ALUControl,
+    input  logic [        3:0] ALUControl,
     input  logic               RegWrite,
     input  logic               PCUppSrc,
     input  logic               ImmUppSrc,
@@ -21,45 +21,45 @@ module ALUtop #(
     output logic [D_WIDTH-1:0] a0
 );
 
-// Internal Signals
-    logic [D_WIDTH-1:0] SrcA;
-    logic [D_WIDTH-1:0] SrcB;
-    logic [D_WIDTH-1:0] RD1;
-    logic [D_WIDTH-1:0] ImmRes;
-    logic [D_WIDTH-1:0] WD3;
+  // Internal Signals
+  logic [D_WIDTH-1:0] SrcA;
+  logic [D_WIDTH-1:0] SrcB;
+  logic [D_WIDTH-1:0] RD1;
+  logic [D_WIDTH-1:0] ImmRes;
+  logic [D_WIDTH-1:0] WD3;
 
-//WD3 MUX's
-    always_comb begin
-        ImmRes = ImmUppSrc ? ImmExt : Result;
-        WD3 = Jump ? PC : ImmRes;
-    end
-    
-// Reg File Module
-RegisterFile RF(
-    .CLK(CLK),
-    .WE3(RegWrite),
-    .A1(A1),
-    .A2(A2),
-    .A3(A3),
-    .WD3(WD3),
-    .RD1(RD1),
-    .RD2(RD2),
-    .a0(a0)
-);
+  //WD3 MUX's
+  always_comb begin
+    ImmRes = ImmUppSrc ? ImmExt : Result;
+    WD3 = Jump ? PC : ImmRes;
+  end
 
-// SrcA MUX
-    assign SrcA = PCUppSrc ? PC + 4 : RD1;
+  // Reg File Module
+  RegisterFile RF (
+      .CLK(CLK),
+      .WE3(RegWrite),
+      .A1 (A1),
+      .A2 (A2),
+      .A3 (A3),
+      .WD3(WD3),
+      .RD1(RD1),
+      .RD2(RD2),
+      .a0 (a0)
+  );
 
-// SrcB MUX 
-    assign SrcB = ALUSrc ? ImmExt : RD2;
+  // SrcA MUX
+  assign SrcA = PCUppSrc ? PC + 4 : RD1;
 
-// ALU Module
-ALU ALU(
-    .ALUControl(ALUControl),
-    .SrcA(SrcA),
-    .SrcB(SrcB),
-    .ALUResult(ALUResult),
-    .Zero(Zero)
-);
-    
+  // SrcB MUX 
+  assign SrcB = ALUSrc ? ImmExt : RD2;
+
+  // ALU Module
+  ALU ALU (
+      .ALUControl(ALUControl),
+      .SrcA(SrcA),
+      .SrcB(SrcB),
+      .ALUResult(ALUResult),
+      .Zero(Zero)
+  );
+
 endmodule
