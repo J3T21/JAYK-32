@@ -10,7 +10,6 @@ module ALU #(
 
   logic Unsigned;
   logic DiffSign;
-  logic [4:0] fuck;
 
   always_latch begin
     Zero = (SrcA == SrcB);

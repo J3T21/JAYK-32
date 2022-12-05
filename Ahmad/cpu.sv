@@ -48,7 +48,7 @@ module cpu #(
   ControlUnit CU (
       .op(Instr[6:0]),
       .funct3(Instr[14:12]),
-      .funct7(Instr[31:25]),
+      .funct7(Instr[30]),
       .Zero(Zero),
       .Jump(Jump),
       .JumpReg(JumpReg),
