@@ -31,7 +31,6 @@ module LoadMemory (
       3'b101: RDOut = A[1] ? {{RDIn[31:16]}, {16{1'b0}}} : {{16{1'b0}}, {RDIn[15:0]}};
       // Default
       default: RDOut = RDIn;
-
     endcase
   end
 
