@@ -3,6 +3,7 @@ module RegisterFile #(
     D_WIDTH = 32
 ) (
     input logic CLK,
+    input logic trigger,
     input logic WE3,
     input logic [A_WIDTH-1:0] A1,
     input logic [A_WIDTH-1:0] A2,
@@ -21,9 +22,10 @@ module RegisterFile #(
 
   // Set outputs
   always_comb begin
-    a0  = REG_FILE[10];
+    a0 = REG_FILE[10];
     RD1 = REG_FILE[A1];
     RD2 = REG_FILE[A2];
+    REG_FILE[5] = trigger;
   end
 
   // Write to register file

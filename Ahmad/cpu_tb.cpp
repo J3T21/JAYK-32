@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 
-//#include "vbuddy.cpp"     // include vbuddy code
+#include "vbuddy.cpp"     // include vbuddy code
 #define MAX_SIM_CYC 100000
 
 int main(int argc, char **argv, char **env) {
@@ -23,13 +23,14 @@ int main(int argc, char **argv, char **env) {
   tfp->open ("cpu.vcd");
 
   // init Vbuddy
-  //f (vbdOpen()!=1) return(-1);
-  //vbdHeader("Ahmad Test"); // My branch :)
-  //vbdSetMode(0);
+  if (vbdOpen()!=1) return(-1);
+  vbdHeader("Ahmad Test");
+  vbdSetMode(0);
 
   // initialize simulation inputs
   cpu->CLK = 0;
   cpu->rst = 0;
+  cpu->trigger = 0;
 
   for (simcyc = 0; simcyc < MAX_SIM_CYC; simcyc++) {
 
@@ -44,12 +45,9 @@ int main(int argc, char **argv, char **env) {
     // vbdHex(3, int(cpu->a0) >> 8 & 0xf);
     // vbdHex(4, int(cpu->a0) >> 12 & 0xf);
     // vbdPlot(cpu->a0,0,255);
-
-    // vbdCycle(simcyc);
-
-    // Displays value at a0 on Vbuddy
-
-    
+    vbdBar(cpu->a0);
+    vbdCycle(simcyc);
+    cpu->trigger = vbdFlag() || vbdGetkey() == 't';
 
     if (Verilated::gotFinish())  exit(0);
   }

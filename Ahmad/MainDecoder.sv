@@ -83,13 +83,13 @@ module MainDecoder (
       7'd103: begin
         Jump     = 1'b1;
         JumpReg  = 1'b1;
-        ImmSrc   = 3'b100;
+        ImmSrc   = 3'b000;
         RegWrite = 1'b1;
       end
       // Jump and link 
       7'd111: begin
         Jump     = 1'b1;
-        ImmSrc   = 3'b000;
+        ImmSrc   = 3'b100;
         RegWrite = 1'b1;
       end
     // Invalid 

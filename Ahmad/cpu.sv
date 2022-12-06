@@ -1,8 +1,9 @@
 module cpu #(
     parameter WIDTH = 32
 ) (
-    input logic CLK,
-    input logic rst,
+    input  logic CLK,
+    input  logic trigger,
+    input  logic rst,
     output logic [WIDTH-1:0] a0
 );
 
@@ -74,6 +75,7 @@ module cpu #(
   // ALU Module
   ALUtop ALUT (
       .CLK(CLK),
+      .trigger(trigger),
       .Jump(Jump),
       .ALUSrc(ALUSrc),
       .ALUControl(ALUControl),
@@ -108,12 +110,6 @@ module cpu #(
     $display("Instruction: %h", Instr);
     $display("ALUControl: %b", ALUControl);
     $display("ALUResult: %h", ALUResult);
-    $display("Result: %h", Result);
-    $display("a0: %h", a0);
-    //$display("Imm: %h", Instr[31:20]);
-    //$display("EXT: %h", ImmExt);
-    //$display("RegWrite: ", RegWrite);
-    //$display("Write Address: %h", Instr[11:7]);
+    $display("a0: %b", a0);
   end
-
 endmodule

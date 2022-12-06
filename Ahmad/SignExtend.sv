@@ -15,7 +15,7 @@ module SignExtend (
       // Branch
       3'b011:  ImmExt = {{20{Imm[31]}}, {Imm[7]}, {Imm[30:25]}, {Imm[11:8]}, {1'b0}};
       // Jump      
-      3'b100:  ImmExt = {{13{Imm[31]}}, {Imm[19:12]}, {Imm[20]}, {Imm[30:21]}};
+      3'b100:  ImmExt = {{12{Imm[31]}}, {Imm[19:12]}, {Imm[20]}, {Imm[30:21]}, {1'b0}};
       // Unsigned Imm
       //    3'b101   ImmExt = {{20{1'b0}},{Imm[31:20]}};
       // Default
