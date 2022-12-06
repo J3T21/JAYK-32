@@ -41,8 +41,6 @@ module ALU #(
       // Default
       default: ALUResult = 32'b0;
     endcase
-    $display("ALU1: %d", SrcA);
-    $display("ALU2: %d", SrcB);
   end
 
 endmodule

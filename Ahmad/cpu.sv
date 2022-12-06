@@ -107,9 +107,9 @@ module cpu #(
 
   // Dsiplay
   always_comb begin
-    $display("Instruction: %h", Instr);
-    $display("ALUControl: %b", ALUControl);
-    $display("ALUResult: %h", ALUResult);
-    $display("a0: %b", a0);
+    // $display("Instruction: %h", Instr);
+    // $display("ALUControl: %b", ALUControl);
+    // $display("ALUResult: %h", ALUResult);
+    // $display("a0: %b", a0);
   end
 endmodule
