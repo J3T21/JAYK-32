@@ -3,6 +3,7 @@ module ALUtop #(
     D_WIDTH = 32
 ) (
     input  logic               CLK,
+    input  logic               trigger,
     input  logic               Jump,
     input  logic               ALUSrc,
     input  logic [        3:0] ALUControl,
@@ -31,12 +32,13 @@ module ALUtop #(
   //WD3 MUX's
   always_comb begin
     ImmRes = ImmUppSrc ? ImmExt : Result;
-    WD3 = Jump ? PC : ImmRes;
+    WD3 = Jump ? PC + 4 : ImmRes;
   end
 
   // Reg File Module
   RegisterFile RF (
       .CLK(CLK),
+      .trigger(trigger),
       .WE3(RegWrite),
       .A1 (A1),
       .A2 (A2),
