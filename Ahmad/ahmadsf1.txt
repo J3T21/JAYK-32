@@ -14,7 +14,7 @@ a4 - delay counter var
 defaut:
     addi s1, zero, 0x1  
     addi s2, zero, 0xff 
-    addi s3, zero, 0x5 
+    addi s3, zero, 0x5 /* MAY MAKE BIGGER */
     addi a3, zero, 0x1 
 
 reset:
@@ -22,7 +22,7 @@ reset:
     addi a4, zero, 0x0 
 
 mloop:
-    beq  t0, s1, fsm    /* check trigger */
+    beq  t0, s1, fsm    /* check trigger */ /* MAY MAKE 7th POLYNOMIAL*/
     srli a2, a3, 0x3    /* send 4th bit to 1st bit */
     xor  a2, a2, a3     /* xor 4th bit and 1st bit */
     andi a2, a2, 0x1    /* remove other bits */
@@ -39,7 +39,7 @@ fsm:
 
 delay:
     beq  a4, a3, reset  /* if delay counter is finished reset */
-    jal  ra, count      /* jump to counter */
+    jal  ra, count      /* jump to counter MAY NOT NEED THIS*/
     addi a4, a4, 0x1    /* increment delay counter */
     jal  ra, delay      /* Loop */
 
