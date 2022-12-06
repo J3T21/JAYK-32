@@ -10,6 +10,7 @@
 int main(int argc, char **argv, char **env) {
   int simcyc;     // simulation clock count
   int tick;       // each CLK cycle has two ticks for two edges
+  int trigcyc;
 
   Verilated::commandArgs(argc, argv);
   
@@ -25,7 +26,7 @@ int main(int argc, char **argv, char **env) {
   // init Vbuddy
   if (vbdOpen()!=1) return(-1);
   vbdHeader("Ahmad Test");
-  vbdSetMode(0);
+  vbdSetMode(1);
 
   // initialize simulation inputs
   cpu->CLK = 0;
@@ -40,14 +41,17 @@ int main(int argc, char **argv, char **env) {
       cpu->eval ();
     }
 
-    // vbdHex(1, int(cpu->a0) & 0xf);
-    // vbdHex(2, int(cpu->a0) >> 4 & 0xf);
-    // vbdHex(3, int(cpu->a0) >> 8 & 0xf);
-    // vbdHex(4, int(cpu->a0) >> 12 & 0xf);
-    // vbdPlot(cpu->a0,0,255);
     vbdBar(cpu->a0);
     vbdCycle(simcyc);
-    cpu->trigger = vbdFlag() || vbdGetkey() == 't';
+
+    if (simcyc > trigcyc + 7) cpu->trigger = 0;
+
+    if (vbdFlag() || vbdGetkey() == 't'){
+      cpu->trigger = 1;
+      trigcyc = simcyc;
+    }
+    
+    // cpu->trigger = vbdFlag() || vbdGetkey() == 't';
 
     if (Verilated::gotFinish())  exit(0);
   }
