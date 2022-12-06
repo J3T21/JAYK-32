@@ -23,7 +23,7 @@ module DataMemory #(
     //     DataMemory[i]=32'b0;
   end
 
-  // Assign )utput
+  // Assign Output
   assign RD = {RAM[A], RAM[A+1], RAM[A+2], RAM[A+3]};
 
   // Write to RAM
@@ -34,7 +34,5 @@ module DataMemory #(
       RAM[A+2] <= WD[15:8];
       RAM[A+3] <= WD[7:0];
     end
-    $display("Address", A);
-    $display("ReadData", RD);
   end
 endmodule
