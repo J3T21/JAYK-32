@@ -1,29 +1,27 @@
 module ExeMemff #(
     WIDTH = 32
 ) (
-    input RegWriteE,
-    input ResultSrcE,
-    input MemWriteE,
-    input JumpE,
-    input JumpRegE,
-    input BranchE,
-    input AluResultE,
-    input WriteDataE, //RD2E
-    input RdE,
-    input ImmExtE,
-    input PCPlus4E,
-    input CLK,
-    output RegWriteM,
-    output ResultSrcM,
-    output MemWriteM,
-    output JumpM,
-    output JumpRegM,
-    output BranchM,
-    output AluResultM,
-    output WriteDataM, 
-    output RdM,
-    output ImmExtM,
-    output PCPlus4M   
+    input  logic RegWriteE,
+    input  logic [1:0] ResultSrcE,
+    input  logic MemWriteE,
+    input  logic JumpE,
+    input  logic JumpRegE,
+    input  logic [WIDTH-1:0] AluResultE,
+    input  logic [WIDTH-1:0] WriteDataE, //RD2E
+    input  logic [11:7]RdE,
+    input  logic [WIDTH-1:0] ImmExtE,
+    input  logic [WIDTH-1:0] PCPlus4E,
+    input  logic CLK,
+    output logic  RegWriteM,
+    output logic  [1:0] ResultSrcM,
+    output logic  MemWriteM,
+    output logic  JumpM,
+    output logic  JumpRegM,
+    output logic  [WIDTH-1:0] AluResultM,
+    output logic  [WIDTH-1:0] WriteDataM, 
+    output logic  [11:7] RdM,
+    output logic  [WIDTH-1:0] ImmExtM,
+    output logic  [WIDTH-1:0] PCPlus4M   
 );
 always_ff @(posedge CLK) begin
     RegWriteM <= RegWriteE;
@@ -31,7 +29,6 @@ always_ff @(posedge CLK) begin
     MemWriteM <= MemWriteE;
     JumpM <= JumpE;
     JumpRegM <= JumpRegE;
-    BranchM <= BranchE;
     AluResultM <= AluResultE;
     WriteDataM <= WriteDataE;
     RdM <= RdE;
