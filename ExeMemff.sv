@@ -1,5 +1,5 @@
 module ExeMemff #(
-    WIDTH = 32
+    parameter WIDTH = 32
 ) (
     input  logic RegWriteE,
     input  logic [1:0] ResultSrcE,
