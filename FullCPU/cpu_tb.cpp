@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **env) {
 
   // init Vbuddy
   if (vbdOpen()!=1) return(-1);
-  vbdHeader("Ahmad Test");
+  vbdHeader("CPU Test");
   vbdSetMode(1);
 
   // initialize simulation inputs
